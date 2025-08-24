@@ -1,0 +1,65 @@
+<!-- templates/transactions.html -->
+{% extends 'layout.html' %}
+{% block content %}
+<div class="row">
+  <div class="col-md-5">
+    <div class="card">
+      <div class="card-header">Record Transaction</div>
+      <div class="card-body">
+        <form method="post">
+          <div class="mb-3">
+            <label>Product</label>
+            <select name="product_id" class="form-select">
+              {% for p in products %}
+              <option value="{{ p.id }}">{{ p.name }} ({{ p.stock }})</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label>Type</label>
+            <select name="type" class="form-select">
+              <option value="in">Stock In</option>
+              <option value="out">Stock Out</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label>Quantity</label>
+            <input type="number" name="qty" class="form-control" required min="1">
+          </div>
+          <div class="mb-3">
+            <label>Supplier (optional)</label>
+            <select name="supplier_id" class="form-select">
+              <option value="">-- none --</option>
+              {% for s in suppliers %}
+              <option value="{{ s.id }}">{{ s.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label>Notes</label>
+            <textarea name="notes" class="form-control"></textarea>
+          </div>
+          <button class="btn btn-primary">Record</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-7">
+    <div class="card">
+      <div class="card-header">Recent Transactions</div>
+      <div class="card-body">
+        <ul class="list-group">
+          {% for t in transactions %}
+          <li class="list-group-item">
+            {{ t.timestamp.strftime('%Y-%m-%d %H:%M') }} - <strong>{{ t.product.name }}</strong> - {{ t.type }} - {{ t.qty }}
+          </li>
+          {% else %}
+            <li class="list-group-item">No transactions yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

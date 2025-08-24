@@ -1,0 +1,12 @@
+<!-- templates/import.html -->
+{% extends 'layout.html' %}
+{% block content %}
+<h4>Import Products (CSV)</h4>
+<form method="post" enctype="multipart/form-data">
+  <div class="mb-3">
+    <input type="file" name="file" class="form-control" accept=".csv" required>
+  </div>
+  <button class="btn btn-primary">Upload</button>
+</form>
+<p class="mt-2">CSV must contain at least a 'code' column. Optional columns: name, category, stock, reorder_point, description</p>
+{% endblock %}

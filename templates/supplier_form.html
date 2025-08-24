@@ -1,0 +1,14 @@
+<!-- templates/supplier_form.html -->
+{% extends 'layout.html' %}
+{% block content %}
+<h4>{{ action }} Supplier</h4>
+<form method="post">
+  {{ form.hidden_tag() }}
+  <div class="mb-3">{{ form.name.label }} {{ form.name(class="form-control") }}</div>
+  <div class="mb-3">{{ form.contact.label }} {{ form.contact(class="form-control") }}</div>
+  <div class="mb-3">{{ form.email.label }} {{ form.email(class="form-control") }}</div>
+  <div class="mb-3">{{ form.address.label }} {{ form.address(class="form-control") }}</div>
+  <button class="btn btn-primary">{{ action }}</button>
+  <a class="btn btn-secondary" href="{{ url_for('suppliers') }}">Cancel</a>
+</form>
+{% endblock %}

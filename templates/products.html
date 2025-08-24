@@ -1,0 +1,49 @@
+<!-- templates/products.html -->
+{% extends 'layout.html' %}
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+  <div>
+    <form class="d-flex" method="get">
+      <input class="form-control me-2" name="q" placeholder="Search by name, code or category" value="{{ q }}">
+      <select class="form-select me-2" name="status">
+        <option value="">All</option>
+        <option value="low" {% if filter_status=='low' %}selected{% endif %}>Low stock</option>
+        <option value="out" {% if filter_status=='out' %}selected{% endif %}>Out of stock</option>
+      </select>
+      <button class="btn btn-outline-primary">Search</button>
+    </form>
+  </div>
+  <div>
+    {% if session.user.role in ['admin','manager'] %}
+    <a href="{{ url_for('product_new') }}" class="btn btn-success">Add Product</a>
+    {% endif %}
+    <a href="{{ url_for('export_products') }}" class="btn btn-secondary">Export CSV</a>
+    <a href="{{ url_for('import_products') }}" class="btn btn-secondary">Import</a>
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr><th>Code</th><th>Name</th><th>Category</th><th>Stock</th><th>Reorder</th><th>Actions</th></tr>
+  </thead>
+  <tbody>
+    {% for p in products %}
+    <tr>
+      <td>{{ p.code }}</td>
+      <td>{{ p.name }}</td>
+      <td>{{ p.category }}</td>
+      <td>{{ p.stock }}</td>
+      <td>{{ p.reorder_point }}</td>
+      <td>
+        <a href="{{ url_for('product_edit', pid=p.id) }}" class="btn btn-sm btn-primary">Edit</a>
+        {% if session.user.role == 'admin' %}
+        <form method="post" action="{{ url_for('product_delete', pid=p.id) }}" style="display:inline">
+          <button class="btn btn-sm btn-danger" onclick="return confirm('Delete product?')">Delete</button>
+        </form>
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

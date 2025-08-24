@@ -1,0 +1,17 @@
+<!-- templates/product_form.html -->
+{% extends 'layout.html' %}
+{% block content %}
+<h4>{{ action }} Product</h4>
+<form method="post">
+  {{ form.hidden_tag() }}
+  <div class="mb-3">{{ form.code.label }} {{ form.code(class="form-control") }}</div>
+  <div class="mb-3">{{ form.name.label }} {{ form.name(class="form-control") }}</div>
+  <div class="mb-3">{{ form.category.label }} {{ form.category(class="form-control") }}</div>
+  <div class="mb-3">{{ form.stock.label }} {{ form.stock(class="form-control") }}</div>
+  <div class="mb-3">{{ form.reorder_point.label }} {{ form.reorder_point(class="form-control") }}</div>
+  <div class="mb-3">{{ form.supplier_id.label }} {{ form.supplier_id(class="form-select") }}</div>
+  <div class="mb-3">{{ form.description.label }} {{ form.description(class="form-control") }}</div>
+  <button class="btn btn-primary">{{ action }}</button>
+  <a class="btn btn-secondary" href="{{ url_for('products') }}">Cancel</a>
+</form>
+{% endblock %}

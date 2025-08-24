@@ -1,0 +1,62 @@
+<!-- templates/dashboard.html -->
+{% extends 'layout.html' %}
+{% block content %}
+<div class="row">
+  <div class="col-md-8">
+    <div class="row g-3 mb-3">
+      <div class="col-md-4">
+        <div class="card p-3">
+          <h6>Total products</h6>
+          <h3>{{ total_products }}</h3>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-3">
+          <h6>Low stock</h6>
+          <h3>{{ low_stock_count }}</h3>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-3">
+          <h6>Out of stock</h6>
+          <h3>{{ out_of_stock }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3">
+      <div class="card-header">Recent transactions</div>
+      <div class="card-body">
+        <ul class="list-group">
+          {% for t in transactions %}
+          <li class="list-group-item">
+            {{ t.timestamp.strftime('%Y-%m-%d %H:%M') }} - {{ t.type }} - {{ t.product.name }} ({{ t.qty }}) by {% if t.user %}{{ t.user.username }}{% else %}system{% endif %}
+          </li>
+          {% else %}
+            <li class="list-group-item">No transactions yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">Alerts (low stock)</div>
+      <div class="card-body">
+        {% if low_stock_products %}
+        <ul class="list-group">
+          {% for p in low_stock_products %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ p.name }} ({{ p.stock }}) <span class="badge bg-danger">Reorder at {{ p.reorder_point }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p>No low-stock items.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
